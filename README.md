@@ -24,7 +24,7 @@ This project follows a **layered service-oriented architecture** with clear sepa
 ```
 ┌─────────────────────────────────────────────────────────┐
 │                  Streamlit UI Layer                     │
-│  (streamlit_app.py, ui.py) - Presentation & Interaction │
+│  (streamlit_app.py, ui.py, markup.py)                   │
 └─────────────────┬───────────────────────────────────────┘
                   │
 ┌─────────────────▼───────────────────────────────────────┐
@@ -59,7 +59,8 @@ pdf-gen-ai-chatbot/
 │   ├── app/                      # Presentation layer
 │   │   ├── __init__.py
 │   │   ├── streamlit_app.py     # Entry point - Streamlit app initialization
-│   │   └── ui.py                # UI components (sidebar, chat interface)
+│   │   ├── ui.py                # UI components (sidebar, chat interface)
+│   │   └── markup.py            # HTML/CSS strings decoupled from UI logic
 │   │
 │   ├── service/                 # Business logic layer
 │   │   ├── __init__.py

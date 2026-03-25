@@ -9,18 +9,11 @@ from src.service.pinecone_service import PineconeService
 from src.service.chat_service import ChatService
 from src.config import settings
 from src.util import constants
+from src.app.markup import GLOBAL_CSS, header_html, badges_html
 
 
 def _inject_styles() -> None:
-    st.markdown(
-        """
-    <style>
-        a { color: #60B4FF !important; }
-        a:hover { color: #90CFFF !important; text-decoration: underline; }
-    </style>
-    """,
-        unsafe_allow_html=True,
-    )
+    st.markdown(GLOBAL_CSS, unsafe_allow_html=True)
 
 
 def sidebar_ui(
@@ -97,28 +90,8 @@ def chat_ui(
     """
     _inject_styles()
 
-    st.markdown(
-        f'<h1><a href="{constants.PDF_GEN_AI_CHATBOT_GITHUB_URL}" target="_blank" style="text-decoration: none; color: inherit;">PDF Gen AI Chatbot</a></h1>',
-        unsafe_allow_html=True,
-    )
-    st.markdown(
-        f"""
-    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
-        <div style="display: flex; flex-wrap: wrap; gap: 6px; align-items: center;">
-            <img src="https://img.shields.io/badge/Python-3776AB?style=flat-square&logo=python&logoColor=white" height="22"/>
-            <img src="https://img.shields.io/badge/Streamlit-FF4B4B?style=flat-square&logo=streamlit&logoColor=white" height="22"/>
-            <img src="https://img.shields.io/badge/LangChain-1C3C3C?style=flat-square&logo=langchain&logoColor=white" height="22"/>
-            <img src="https://img.shields.io/badge/Groq-F55036?style=flat-square&logo=groq&logoColor=white" height="22"/>
-            <img src="https://img.shields.io/badge/Pinecone-000000?style=flat-square&logo=pinecone&logoColor=white" height="22"/>
-            <img src="https://img.shields.io/badge/HuggingFace-FFD21E?style=flat-square&logo=huggingface&logoColor=black" height="22"/>
-        </div>
-        <div style="white-space: nowrap;">
-            Built by <a href="{constants.AUTHOR_LINKEDIN_URL}" target="_blank">Kunal Chand</a>
-        </div>
-    </div>
-    """,
-        unsafe_allow_html=True,
-    )
+    st.markdown(header_html(constants.PDF_GEN_AI_CHATBOT_GITHUB_URL), unsafe_allow_html=True)
+    st.markdown(badges_html(constants.AUTHOR_LINKEDIN_URL), unsafe_allow_html=True)
 
     st.divider()
 
@@ -126,7 +99,7 @@ def chat_ui(
 
     with st.container():
         with st.form("chat_form", clear_on_submit=True):
-            col1, col2 = st.columns([9, 1])
+            col1, col2 = st.columns([4, 1])
             with col1:
                 query = st.text_input(
                     "message",
@@ -136,9 +109,9 @@ def chat_ui(
             with col2:
                 send_clicked = st.form_submit_button("Send ➤", use_container_width=True)
 
-        _, clear_col = st.columns([9, 1])
+        _, clear_col = st.columns([3, 1])
         with clear_col:
-            if st.button("🗑️ Clear", use_container_width=True, help="Clear chat history"):
+            if st.button("Clear 🗑️", use_container_width=True, help="Clear chat history"):
                 if "chat_service" in st.session_state:
                     st.session_state.chat_service.requests = []
                     st.session_state.chat_service.responses = [constants.DEFAULT_BOT_MESSAGE]

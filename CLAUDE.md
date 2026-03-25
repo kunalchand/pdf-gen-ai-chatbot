@@ -39,7 +39,7 @@ PINECONE_MAX_VECTORS=10000
 This is a **layered, service-oriented RAG (Retrieval Augmented Generation) chatbot** with clear separation of concerns:
 
 ```
-Streamlit UI Layer (streamlit_app.py, ui.py)
+Streamlit UI Layer (streamlit_app.py, ui.py, markup.py)
     ↓
 Service Layer (Business Logic)
     ├─ ChatService → LLM interactions via Groq
@@ -96,11 +96,20 @@ External APIs (Groq, Pinecone, HuggingFace)
 2. **Chat Interface** (`ui.chat_ui()`):
    - Header is a clickable link to the GitHub repo (`PDF_GEN_AI_CHATBOT_GITHUB_URL`)
    - Tech stack badges row (Python, Streamlit, LangChain, Groq, Pinecone, HuggingFace) with LinkedIn author link
-   - Input uses `st.form` with explicit **Send ➤** button (`clear_on_submit=True` clears input after send)
-   - **🗑️ Clear** button sits below Send ➤ (same column, outside the form); resets `requests`/`responses` on `chat_service`
+   - Input row: text input (`[4,1]` columns) with **Send ➤** button on the right, inside `st.form` (`clear_on_submit=True`)
+   - **Clear 🗑️** button sits below, right-aligned (`[3,1]` columns), outside the form; resets `requests`/`responses` on `chat_service`
    - On send: query refined → embedding → Pinecone search → top 2 chunks as context → `chain.invoke()` → response
    - `🤔 Thinking...` spinner shown during LLM processing
    - Messages rendered in `response_container` (above the input form) in chronological order
+
+## UI Markup Layer
+
+**`src/app/markup.py`** — all HTML/CSS strings, decoupled from UI logic:
+- `GLOBAL_CSS`: injected once via `_inject_styles()` in `chat_ui()`
+- `header_html(github_url)`: clickable `<h1>` title linking to the GitHub repo
+- `badges_html(linkedin_url)`: tech stack badge row with author attribution
+
+> Named `markup.py` (not `templates.py`) because it holds static HTML strings and builder functions — not a template engine (Jinja2/Django-style).
 
 ## Configuration Split
 
