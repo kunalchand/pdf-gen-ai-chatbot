@@ -16,11 +16,18 @@ class PineconeService:
         )
         self.index = self.client.Index(settings.PINECONE_INDEX_NAME)
 
+    def get_vector_count(self) -> int:
+        """
+        Returns the total number of vectors in the Pinecone index.
+        """
+        stats = self.index.describe_index_stats()
+        return stats.total_vector_count
+
     def delete_all_vectors(self) -> None:
         """
         Deletes all vectors from the Pinecone index.
         """
-        if len([ids for ids in self.index.list(namespace="")]) != 0:
+        if len(list(self.index.list(namespace=""))) != 0:
             self.index.delete(delete_all=True, namespace="")
 
     def upsert_vectors(

@@ -10,6 +10,7 @@ import streamlit as st
 from typing import Optional
 
 from src.config import settings
+from src.util import constants
 from src.service.pdf_service import PDFService
 from src.service.embeddings_service import EmbeddingsService
 from src.service.pinecone_service import PineconeService
@@ -24,7 +25,7 @@ def main() -> None:
     """
     # Streamlit page configuration
     st.set_page_config(
-        page_title=settings.APP_TITLE, page_icon=settings.APP_ICON, layout="wide"
+        page_title=constants.APP_TITLE, page_icon=constants.APP_ICON, layout="wide"
     )
 
     # Initialize services

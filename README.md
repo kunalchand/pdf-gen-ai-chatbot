@@ -10,9 +10,9 @@ A production-grade Retrieval Augmented Generation (RAG) chatbot that enables int
 
 - **📤 PDF Upload & Processing**: Seamlessly upload and process multiple PDF documents
 - **🧠 Intelligent Context Retrieval**: RAG pipeline retrieves relevant document sections for accurate answers
-- **💬 Conversational Memory**: Maintains conversation history with a sliding window memory buffer
+- **💬 Conversational Memory**: Maintains conversation history for context-aware query refinement
 - **⚡ Fast LLM Inference**: Powered by Groq for low-latency API calls
-- **🎨 Interactive UI**: Clean, responsive Streamlit interface with real-time chat updates
+- **🎨 Interactive UI**: Clean Streamlit interface with explicit Send button, vector DB progress bar, clear chat, and thinking indicator
 - **🔍 Query Refinement**: Contextually refines user queries based on conversation history
 - **🛡️ Type Safety**: Full type hints for better code reliability and IDE support
 - **📊 Structured Logging**: Comprehensive logging for debugging and monitoring
@@ -142,6 +142,9 @@ pdf-gen-ai-chatbot/
    HF_MODEL_NAME=sentence-transformers/all-MiniLM-L6-v2
    HF_DEVICE=cpu  # Use 'cuda' for GPU acceleration
    HF_NORMALIZE=True
+
+   # Optional: max vectors for sidebar progress bar (default: 10000)
+   PINECONE_MAX_VECTORS=10000
    ```
 
 ### Running the Application
@@ -167,14 +170,24 @@ The app will open at `http://localhost:8501`
 | `HF_DEVICE`        | Device for embeddings (cpu/cuda) | `cpu`                                    |
 | `HF_NORMALIZE`     | Normalize embeddings             | `True`                                   |
 
-### Optional Configuration
+### Optional Environment Variables
 
-Modify `src/config/settings.py` to adjust:
+These can be added to `.env` to override defaults:
 
-- `CHUNK_SIZE`: Number of characters per text chunk (default: 1000)
-- `CHUNK_OVERLAP`: Character overlap between chunks (default: 100)
-- `APP_TITLE`: Display title in Streamlit
-- `APP_ICON`: Emoji for app icon
+| Variable              | Default | Description                                      |
+| --------------------- | ------- | ------------------------------------------------ |
+| `CHUNK_SIZE`          | `1000`  | Characters per text chunk                        |
+| `CHUNK_OVERLAP`       | `100`   | Character overlap between chunks                 |
+| `PINECONE_MAX_VECTORS`| `10000` | Vector capacity shown in sidebar progress bar    |
+
+### App Constants
+
+Hard-coded values in `src/util/constants.py`:
+
+- `APP_TITLE`, `APP_ICON`: Page title and browser tab icon
+- `DEFAULT_BOT_MESSAGE`: Initial greeting shown in chat
+- `AUTHOR_LINKEDIN_URL`: LinkedIn URL linked in the UI header
+- `PDF_GEN_AI_CHATBOT_GITHUB_URL`: GitHub repo URL — the app title links here
 
 ## 💡 How It Works
 
@@ -204,7 +217,8 @@ Modify `src/config/settings.py` to adjust:
 5. **Chat Memory Management**
    - Maintains conversation history through request/response tracking
    - Supports query refinement based on chat context
-   - Prevents token bloat while maintaining relevance
+   - Chat history can be cleared at any time via the **🗑️ Clear** button in the chat area
+   - Uploaded files reset automatically after being sent to Pinecone
 
 ## 🏆 Best Practices Implemented
 

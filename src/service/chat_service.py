@@ -9,6 +9,7 @@ from langchain.prompts import (
     SystemMessagePromptTemplate,
 )
 from src.config import settings
+from src.util import constants
 
 
 class ChatService:
@@ -24,7 +25,7 @@ class ChatService:
         )
         self.chain = self._init_chain()
         self.requests: List[str] = []
-        self.responses: List[str] = [settings.DEFAULT_BOT_MESSAGE]
+        self.responses: List[str] = [constants.DEFAULT_BOT_MESSAGE]
 
     def _init_chain(self):
         """
