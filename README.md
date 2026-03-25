@@ -1,4 +1,4 @@
-# 📄 PDF AI Chatbot - RAG-Powered LLM Application
+# 📄 PDF Gen AI Chatbot - RAG-Powered LLM Application
 
 [![Python 3.8+](https://img.shields.io/badge/Python-3.8%2B-blue)](https://www.python.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
@@ -202,7 +202,8 @@ Modify `src/config/settings.py` to adjust:
    - Conversation memory maintained for context awareness
 
 5. **Chat Memory Management**
-   - Uses `ConversationBufferWindowMemory` (k=3) to track recent exchanges
+   - Maintains conversation history through request/response tracking
+   - Supports query refinement based on chat context
    - Prevents token bloat while maintaining relevance
 
 ## 🏆 Best Practices Implemented
@@ -270,9 +271,9 @@ if "chat_service" not in st.session_state:
 
 ### 8. **Conversation Memory Management**
 
-- Sliding window memory (k=3) prevents token bloat
-- Query refinement for better retrieval
-- System prompts guide LLM behavior
+- Maintains conversation history using modern LangChain runnables
+- Tracks requests and responses to enable query refinement
+- System prompts guide LLM behavior for accurate, contextual responses
 
 ## 📚 Technology Stack
 

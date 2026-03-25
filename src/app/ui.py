@@ -76,9 +76,12 @@ def chat_ui(
                         + result["matches"][1]["metadata"]["text"]
                     )
 
-                response = chat_service.conversation.predict(
-                    input=f"Context:\n{context}\n\nQuery:\n{query}"
-                )
+                response = chat_service.chain.invoke(
+                    {
+                        "input": f"Context:\n{context}\n\nQuery:\n{query}",
+                        "history": []
+                    }
+                ).content
 
                 chat_service.add_interaction(query, response)
 

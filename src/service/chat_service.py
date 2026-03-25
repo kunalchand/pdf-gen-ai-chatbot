@@ -2,8 +2,6 @@
 from typing import List
 from groq import Groq
 from langchain_groq import ChatGroq
-from langchain.chains import ConversationChain
-from langchain.chains.conversation.memory import ConversationBufferWindowMemory
 from langchain.prompts import (
     ChatPromptTemplate,
     HumanMessagePromptTemplate,
@@ -24,26 +22,23 @@ class ChatService:
         self.chat_groq = ChatGroq(
             model=settings.GROQ_MODEL, api_key=settings.GROQ_API_KEY
         )
-        self.conversation = self._init_conversation()
+        self.chain = self._init_chain()
         self.requests: List[str] = []
         self.responses: List[str] = [settings.DEFAULT_BOT_MESSAGE]
 
-    def _init_conversation(self) -> ConversationChain:
+    def _init_chain(self):
         """
-        Initializes the LangChain ConversationChain with memory and prompt templates.
+        Initializes a LangChain runnable with prompt templates (replaces deprecated ConversationChain).
         """
-        memory = ConversationBufferWindowMemory(k=3, return_messages=True)
         system_msg = SystemMessagePromptTemplate.from_template(
-            template="""Answer the question as truthfully as possible using the provided context. 
+            template="""Answer the question as truthfully as possible using the provided context.
             If answer is not contained in context, say 'I don't know'. Suggest uploading PDFs only if unknown."""
         )
         human_msg = HumanMessagePromptTemplate.from_template(template="{input}")
         prompt_template = ChatPromptTemplate.from_messages(
             [system_msg, MessagesPlaceholder(variable_name="history"), human_msg]
         )
-        return ConversationChain(
-            memory=memory, prompt=prompt_template, llm=self.chat_groq, verbose=True
-        )
+        return prompt_template | self.chat_groq
 
     def query_refiner(self, conversation_str: str, query: str) -> str:
         """
