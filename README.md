@@ -55,37 +55,37 @@ This project follows a **layered service-oriented architecture** with clear sepa
 
 ```
 pdf-gen-ai-chatbot/
-├── src/                           # Main application source code
+├── src/                          # Main application source code
 │   ├── app/                      # Presentation layer
 │   │   ├── __init__.py
-│   │   ├── streamlit_app.py     # Entry point - Streamlit app initialization
-│   │   ├── ui.py                # UI components (sidebar, chat interface)
-│   │   └── markup.py            # HTML/CSS strings decoupled from UI logic
+│   │   ├── streamlit_app.py      # Entry point - Streamlit app initialization
+│   │   ├── ui.py                 # UI components (sidebar, chat interface)
+│   │   └── markup.py             # HTML/CSS strings decoupled from UI logic
 │   │
-│   ├── service/                 # Business logic layer
+│   ├── service/                  # Business logic layer
 │   │   ├── __init__.py
-│   │   ├── chat_service.py      # LLM conversation management
-│   │   ├── pdf_service.py       # PDF processing and chunking
+│   │   ├── chat_service.py       # LLM conversation management
+│   │   ├── pdf_service.py        # PDF processing and chunking
 │   │   ├── embeddings_service.py # Vector embedding generation
-│   │   └── pinecone_service.py  # Vector database operations
+│   │   └── pinecone_service.py   # Vector database operations
 │   │
-│   ├── config/                  # Configuration management
+│   ├── config/                   # Configuration management
 │   │   ├── __init__.py
-│   │   └── settings.py          # Centralized app settings & env vars
+│   │   └── settings.py           # Centralized app settings & env vars
 │   │
-│   └── util/                    # Utility functions
+│   └── util/                     # Utility functions
 │       ├── __init__.py
-│       └── logger.py            # Logging configuration
+│       └── logger.py             # Logging configuration
 │
 ├── legacy/                       # Previous implementations (reference)
 │   ├── app.py
 │   ├── app2.py
 │   └── app3.py
 │
-├── .env.example                 # Environment variables template
-├── requirements.txt             # Python dependencies
-├── README.md                    # This file
-└── .gitignore                   # Git ignore rules
+├── .env.example                  # Environment variables template
+├── requirements.txt              # Python dependencies
+├── README.md                     # This file
+└── .gitignore                    # Git ignore rules
 ```
 
 ## 🚀 Quick Start
@@ -175,11 +175,11 @@ The app will open at `http://localhost:8501`
 
 These can be added to `.env` to override defaults:
 
-| Variable              | Default | Description                                      |
-| --------------------- | ------- | ------------------------------------------------ |
-| `CHUNK_SIZE`          | `1000`  | Characters per text chunk                        |
-| `CHUNK_OVERLAP`       | `100`   | Character overlap between chunks                 |
-| `PINECONE_MAX_VECTORS`| `10000` | Vector capacity shown in sidebar progress bar    |
+| Variable               | Default | Description                                   |
+| ---------------------- | ------- | --------------------------------------------- |
+| `CHUNK_SIZE`           | `1000`  | Characters per text chunk                     |
+| `CHUNK_OVERLAP`        | `100`   | Character overlap between chunks              |
+| `PINECONE_MAX_VECTORS` | `10000` | Vector capacity shown in sidebar progress bar |
 
 ### App Constants
 
